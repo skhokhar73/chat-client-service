@@ -1,17 +1,34 @@
 spring:
   application:
     name: chat-client-service
+  data:
+    redis:
+      client-type: lettuce
+      host: macropolished-fowl-petaline-14648.db.redis.io
+      port: 14572
+      username: default
+      password: BKT5hO333PMpsfhVJjSkyQyJ2FEnu9WS
+      client-name: chat-client-service
+      lettuce:
+        pool:
+          enabled: false
   ai:
-    openai:
-      api-key: ${GROQ_API_KEY}
-      base-url: https://api.groq.com/openai/v1
-      chat:
-        model: openai/gpt-oss-20b
-#    chat:
-#      client:
-#        tool-calling:
-#          enabled: false
-
+#    openai:
+#      api-key: ${GROQ_API_KEY}
+#      base-url: https://api.groq.com/openai/v1
+#      chat:
+#        model: openai/gpt-oss-20b
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+         model: gemini-3.6-flash
+    chat:
+      memory:
+        redis:
+          host: ${spring.data.redis.host}
+          port: ${spring.data.redis.port}
+          time-to-live: 24h
 logging:
   level:
     org:
@@ -22,3 +39,4 @@ logging:
               advisor: DEBUG
 OPENAI_API_KEY: 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
 GROQ_API_KEY: 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
+GEMINI_API_KEY: AQ.Ab8RN6JuhqUQRRFvWXddI_xFaBKfDXhXHDYxiykZFcQiz12xtA
