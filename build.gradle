@@ -21,16 +21,17 @@ repositories {
 
 ext {
 	set('springAiVersion', "2.0.0")
+	set('lombokVersion', "1.18.46")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//implementation 'org.springframework.ai:spring-ai-starter-model-openai:2.0.0'
-	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai:2.0.0'
-	implementation 'org.springframework.ai:spring-ai-starter-model-chat-memory-repository-redis:2.0.0'
+	//implementation "org.springframework.ai:spring-ai-starter-model-openai:${springAiVersion}"
+	implementation "org.springframework.ai:spring-ai-starter-model-google-genai:${springAiVersion}"
+	implementation "org.springframework.ai:spring-ai-starter-model-chat-memory-repository-redis:${springAiVersion}"
 
-	compileOnly 'org.projectlombok:lombok:1.18.46'
-	annotationProcessor 'org.projectlombok:lombok:1.18.46'
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
