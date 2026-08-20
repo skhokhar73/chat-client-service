@@ -10,7 +10,7 @@ public class NameTools {
     @Tool(description = "Get the my name", name = "getMyName")
     String getMyName() {
         log.info("Getting my name: {}", LocaleContextHolder.getLocale());
-        return "John Doe";
+        return "Stranger Danger";
     }
 
 }

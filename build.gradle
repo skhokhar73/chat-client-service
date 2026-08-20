@@ -29,6 +29,19 @@ dependencies {
 	implementation "org.springframework.ai:spring-ai-starter-model-openai:${springAiVersion}"
 	//implementation "org.springframework.ai:spring-ai-starter-model-google-genai:${springAiVersion}"
 	implementation "org.springframework.ai:spring-ai-starter-model-chat-memory-repository-redis:${springAiVersion}"
+	// Source: https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-starter-tool-search-advisor
+	implementation("org.springframework.ai:spring-ai-starter-tool-search-advisor:${springAiVersion}")
+	// Add tool-search implementation which provides org.springframework.ai.tool.toolsearch.index.vectorstore
+//	implementation "org.springframework.ai:spring-ai-tool-search-tool:${springAiVersion}"
+	// Provide VectorStore API/implementations required by the tool-search autoconfiguration
+	// Use the latest available advisors-vector-store release compatible with Spring AI
+	implementation "org.springframework.ai:spring-ai-advisors-vector-store:2.0.0-M8"
+	// Required implementation artifact: contains org.springframework.ai.vectorstore.redis.RedisVectorStore
+	implementation "org.springframework.ai:spring-ai-redis-store:${springAiVersion}"
+	// Redis vector store auto-configuration and connection factory support
+	implementation "org.springframework.ai:spring-ai-autoconfigure-vector-store-redis:${springAiVersion}"
+	// Ensure Spring Data Redis is available for Jedis/JedisConnectionFactory
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	compileOnly "org.projectlombok:lombok:${lombokVersion}"
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"

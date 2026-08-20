@@ -3,7 +3,7 @@ spring:
     name: chat-client-service
   data:
     redis:
-      client-type: lettuce
+      client-type: jedis
       host: macropolished-fowl-petaline-14648.db.redis.io
       port: 14572
       username: default
@@ -13,6 +13,8 @@ spring:
         pool:
           enabled: false
   ai:
+    vectorstore:
+      type: redis
     openai:
       api-key: ${GROQ_API_KEY}
       base-url: https://api.groq.com/openai/v1
@@ -20,7 +22,8 @@ spring:
         model: openai/gpt-oss-120b
         extra-body:
           include_reasoning: false
-
+      embedding:
+        model: text-embedding-3-small
 
     #    google:
 #      genai:
@@ -33,6 +36,14 @@ spring:
           host: ${spring.data.redis.host}
           port: ${spring.data.redis.port}
           time-to-live: 24h
+      client:
+        tool-search-advisor:
+          enabled: true
+          tool-index-type: vector
+          max-results: 5
+          eviction:
+            lru-max-sessions: 100
+            ttl: 24h
 logging:
   level:
     org:
