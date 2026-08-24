@@ -1,0 +1,61 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'in.skippr'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+ext {
+	set('springAiVersion', "2.0.0")
+	set('lombokVersion', "1.18.46")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springframework.ai:spring-ai-starter-model-openai:${springAiVersion}"
+	//implementation "org.springframework.ai:spring-ai-starter-model-google-genai:${springAiVersion}"
+	implementation "org.springframework.ai:spring-ai-starter-model-chat-memory-repository-redis:${springAiVersion}"
+	// Source: https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-starter-tool-search-advisor
+	implementation("org.springframework.ai:spring-ai-starter-tool-search-advisor:${springAiVersion}")
+	// Add tool-search implementation which provides org.springframework.ai.tool.toolsearch.index.vectorstore
+//	implementation "org.springframework.ai:spring-ai-tool-search-tool:${springAiVersion}"
+	// Provide VectorStore API/implementations required by the tool-search autoconfiguration
+	// Use the latest available advisors-vector-store release compatible with Spring AI
+	implementation "org.springframework.ai:spring-ai-advisors-vector-store:2.0.0-M8"
+	// Required implementation artifact: contains org.springframework.ai.vectorstore.redis.RedisVectorStore
+	implementation "org.springframework.ai:spring-ai-redis-store:${springAiVersion}"
+	// Redis vector store auto-configuration and connection factory support
+	implementation "org.springframework.ai:spring-ai-autoconfigure-vector-store-redis:${springAiVersion}"
+	// Ensure Spring Data Redis is available for Jedis/JedisConnectionFactory
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

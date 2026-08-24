@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: chat-client-service
+  data:
+    redis:
+      client-type: jedis
+      host: ${REDIS_HOST}
+      port: 14572
+      username: default
+      password: ${REDIS_PASSWORD}
+      client-name: chat-client-service
+      lettuce:
+        pool:
+          enabled: false
+  ai:
+    vectorstore:
+      type: redis
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai/v1
+      chat:
+        model: openai/gpt-oss-120b
+        extra-body:
+          include_reasoning: false
+      embedding:
+        model: text-embedding-3-small
+
+    #    google:
+#      genai:
+#        api-key: ${GEMINI_API_KEY}
+#        chat:
+#         model: gemini-3.6-flash
+    chat:
+      memory:
+        redis:
+          host: ${spring.data.redis.host}
+          port: ${spring.data.redis.port}
+          time-to-live: 24h
+      client:
+        tool-search-advisor:
+          enabled: true
+          tool-index-type: vector
+          max-results: 5
+          eviction:
+            lru-max-sessions: 100
+            ttl: 24h
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
